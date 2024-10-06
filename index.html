@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="script.js" defer></script>
-    <title>Registration Form</title>
+    <title>WD101 Capstone</title>
 </head>
 <body>
 
@@ -77,9 +77,16 @@
             </div>
         </div>
     </form>  
+
+    <div class="relative bg-white px-6 mt-5 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg sm:px-10">
+        <div class="mx-auto">
+            <h2 class="text-3xl text-center font-bold leading-tight">Entries</h2>
+            <div class="divide-y divide-gray-300/50" id="user-entries"></div>
+        </div>
+    </div>
 </div>
 
-<script>
+<script> //validation logic
     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const password = document.getElementById('password');
@@ -108,7 +115,7 @@
         event.preventDefault(); 
         
         if (validateName(name) && validateEmail(email) && validatePassword(password) && validateDOB(dob) && validateTerms(terms)) {
-            collectData();
+            saveUserForm(event);
         }
     });
 
@@ -184,6 +191,5 @@
         }
     }
 </script>
-
 </body>
 </html>

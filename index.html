@@ -171,7 +171,7 @@
 
         //if wrong age is manually entered
         if (age < 18 || age > 55) {
-            element.setCustomValidity("You must be between 18 and 55 years old.");
+            element.setCustomValidity("Age must be between 18 and 55 years.");
             element.reportValidity();
             return false; 
         } else {

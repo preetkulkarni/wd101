@@ -1,20 +1,189 @@
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
+    <title>Registration Form</title>
+</head>
+<body>
 
-    </head> 
-    <body>
-        <h2>
-            Registration Form
-        </h2>
-        <form>
-            <label for="name">
-                Name
+<div class="flex justify-center items-center min-h-screen flex-col">
+    <h2 class="text-2xl font-bold text-center mb-6">Registration Form</h2>
+    
+    <form id="registrationForm" class="form-container w-full max-w-sm p-6 border border-gray-300 rounded-lg shadow-md">
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="name">
+                    Full Name
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" id="name" type="text" placeholder="Enter name">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="email">
+                    Email 
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" id="email" type="email" placeholder="Enter email">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="password">
+                    Password
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" id="password" type="password" placeholder="Enter password">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="dob">
+                    Date of Birth 
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white" id="dob" type="date">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3"></div>
+            <label class="md:w-2/3 block text-gray-500 font-bold">
+                <input id="terms" class="mr-2 leading-tight" type="checkbox">
+                <span class="text-sm">
+                    Accept Terms and Conditions
+                </span>
             </label>
-            <input required type="text" placeholder="Enter your full name"></form><br>
-            
-            <label for="email" 
+        </div>
 
-                
-        </form>
-    </body>
+        <div class="md:flex md:items-center">
+            <div class="md:w-1/3"></div>
+            <div class="md:w-2/3">
+                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" id="submit" type="submit">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>  
+</div>
+
+<script>
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const dob = document.getElementById('dob');
+    const terms = document.getElementById('terms');
+    const submit = document.getElementById('submit');
+    const registrationForm = document.getElementById('registrationForm');
+    
+    // setting maximum and minimum date based on current date
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setFullYear(today.getFullYear() - 18); 
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 55); 
+
+
+    dob.setAttribute('min', minDate.toISOString().split('T')[0]);
+    dob.setAttribute('max', maxDate.toISOString().split('T')[0]);
+
+
+    name.addEventListener('input', () => validateName(name));
+    email.addEventListener('input', () => validateEmail(email));
+    password.addEventListener('input', () => validatePassword(password));
+
+    submit.addEventListener('click', (event) => {
+        event.preventDefault(); 
+        
+        if (validateName(name) && validateEmail(email) && validatePassword(password) && validateDOB(dob) && validateTerms(terms)) {
+            collectData();
+        }
+    });
+
+    function validateName(element) {
+        if (element.validity.valueMissing) {
+            element.setCustomValidity("Please enter your name.");
+            element.reportValidity();
+            return false; 
+        } else {
+            element.setCustomValidity('');
+            return true; 
+        }
+    }
+
+    function validateEmail(element) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //regex pattern
+        if (!emailPattern.test(element.value)) {
+            element.setCustomValidity("Please enter a valid email.");
+            element.reportValidity();
+            return false; 
+        } else {
+            element.setCustomValidity('');
+            return true; 
+        }
+    }
+
+    function validatePassword(element) {
+        if (element.validity.valueMissing) {
+            element.setCustomValidity("Please enter a password.");
+            element.reportValidity();
+            return false; 
+        } else {
+            element.setCustomValidity('');
+            return true; 
+        }
+    }
+
+    function validateDOB(element) {
+        if (!element.value) {
+            element.setCustomValidity("Please enter your date of birth.");
+            element.reportValidity();
+            return false; 
+        }
+
+        const dobValue = new Date(element.value);
+        const today = new Date();
+        const age = today.getFullYear() - dobValue.getFullYear();
+        const monthDiff = today.getMonth() - dobValue.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+            age--;
+        }
+
+        //if wrong age is manually entered
+        if (age < 18 || age > 55) {
+            element.setCustomValidity("You must be between 18 and 55 years old.");
+            element.reportValidity();
+            return false; 
+        } else {
+            element.setCustomValidity('');
+            return true; 
+        }
+    }
+
+    function validateTerms(element) {
+        if (!element.checked) {
+            element.setCustomValidity("You must accept the terms and conditions.");
+            element.reportValidity();
+            return false; 
+        } else {
+            element.setCustomValidity('');
+            return true; 
+        }
+    }
+</script>
+
+</body>
 </html>

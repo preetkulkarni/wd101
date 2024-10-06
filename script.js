@@ -1,30 +1,9 @@
-function collectData() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const dob = document.getElementById('dob').value;
-    const termsChecked = document.getElementById('terms').checked;
 
-    // Create a user object
-    const userData = {
-        name: name,
-        email: email,
-        password: password,
-        dob: dob,
-        terms: termsChecked
-    };
-
-    // Store user data in local storage as a JSON object
-    localStorage.setItem('userData', JSON.stringify(userData));
-
-    // Optional: To check the stored data
-    console.log("User data saved to local storage:", userData);
-}
-
-/*
+//real time table entry logic
+let userForm = document.getElementById("user-form");
 
 const retrieveEntries = () =>{
-    let entries = localStorage.getItem("userData");
+    let entries = localStorage.getItem("user-entries");
     if(entries){
         entries = JSON.parse(entries);
     } else {
@@ -32,6 +11,7 @@ const retrieveEntries = () =>{
     }
     return entries;
 }
+let userEntries = retrieveEntries();
 
 const displayEntries = () => {
     const entries = retrieveEntries();
@@ -48,15 +28,42 @@ const displayEntries = () => {
 
     }).join("\n");
 
-    const table = `<table class="table-auto w-full">
-    <tr>
+    const table = `<table class="table-auto w-full"><tr>
     <th class="px-4 py-2">Name</th>
     <th class="px-4 py-2">Email</th>
     <th class="px-4 py-2">Password</th>
     <th class="px-4 py-2">DOB</th>
     <th class="px-4 py-2">Terms Accepted?</th>
-    </tr>${tableEntries} 
-    </table>`;
+    </tr>${tableEntries} </table>`;
+
+    let details = document.getElementById("user-entries");
+    details.innerHTML = table;
 }
 
-*/
+const saveUserForm = (event) => {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+    const termsChecked = document.getElementById('terms').checked;
+
+    // Create a user object
+    const userData = {
+        name: name,
+        email: email,
+        password: password,
+        dob: dob,
+        terms: termsChecked
+    };
+
+    userEntries.push(userData);
+    // Store user data in local storage as a JSON object
+    localStorage.setItem('user-entries', JSON.stringify(userEntries));
+
+    displayEntries();
+
+    // Optional: To check the stored data
+    console.log("User data saved to local storage:", userEntries);
+}
+displayEntries();
